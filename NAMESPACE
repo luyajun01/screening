@@ -1,1 +1,4 @@
-exportPattern("^[^\\.]")
+importFrom(Rcpp, evalCpp)
+exportPattern("^[[:alpha:]]+")
+import(RcppArmadillo)
+useDynLib(myscreening, .registration=TRUE)

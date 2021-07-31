@@ -21,7 +21,8 @@
 #' Li, Gaorong, et al. "Robust rank correlation based screening." The Annals of Statistics 40.3 (2012): 1846-1877.
 #' Wang, Hansheng. "Forward regression for ultra-high dimensional variable screening." Journal of the American Statistical Association 104.488 (2009): 1512-1524.
 #'
-screening <- function(x, y, method = 'holp', num.select = floor(dim(x)[1]/2), family = 'gaussian', ebic = FALSE, ebic.gamma = 1) {
+dyn.load('myscreening.so')
+my_screening <- function(x, y, method = 'holp', num.select = floor(dim(x)[1]/2), family = 'gaussian', ebic = FALSE, ebic.gamma = 1) {
 
     # standardize
     x = as.matrix(x)
@@ -49,7 +50,7 @@ screening <- function(x, y, method = 'holp', num.select = floor(dim(x)[1]/2), fa
         if (family == 'gaussian') {
             if (method == 'holp') {
                 #OLS = t(X) %*% solve(X %*% t(X) + diag(n) * 1, Y)
-                OLS = .Call("ols", PACKAGE = 'screening')
+                OLS = .call("rcpp_ols",X,Y,n) 
                 ranking = sort(abs(OLS), index.return = TRUE, decreasing = TRUE)
                 if (ebic) {
                     result = .ebicRanking(X, Y, ranking$ix, family, ebic.gamma)$select
