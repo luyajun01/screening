@@ -48,7 +48,8 @@ screening <- function(x, y, method = 'holp', num.select = floor(dim(x)[1]/2), fa
         # for the linear case, it is easy to compute everything.
         if (family == 'gaussian') {
             if (method == 'holp') {
-                OLS = t(X) %*% solve(X %*% t(X) + diag(n) * 1, Y)
+                #OLS = t(X) %*% solve(X %*% t(X) + diag(n) * 1, Y)
+                OLS = .Call("ols", PACKAGE = 'screening')
                 ranking = sort(abs(OLS), index.return = TRUE, decreasing = TRUE)
                 if (ebic) {
                     result = .ebicRanking(X, Y, ranking$ix, family, ebic.gamma)$select
