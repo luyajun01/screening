@@ -1,4 +1,4 @@
-name{myscreening-package}
+\name{myscreening-package}
 \alias{myscreening-package}
 \alias{myscreening}
 \docType{package}
