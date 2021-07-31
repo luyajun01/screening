@@ -50,7 +50,7 @@ my_screening <- function(x, y, method = 'holp', num.select = floor(dim(x)[1]/2),
         if (family == 'gaussian') {
             if (method == 'holp') {
                 #OLS = t(X) %*% solve(X %*% t(X) + diag(n) * 1, Y)
-                OLS = .call("_myscreening_rcpp_ols",X,Y,n) 
+                OLS = .Call("_myscreening_rcpp_ols",X,Y,n) 
                 ranking = sort(abs(OLS), index.return = TRUE, decreasing = TRUE)
                 if (ebic) {
                     result = .ebicRanking(X, Y, ranking$ix, family, ebic.gamma)$select
